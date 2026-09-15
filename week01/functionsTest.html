@@ -3,53 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <title>Function Tests</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 2rem;
+
+            font-family: monospace;
+            font-size: 1rem;
+            white-space: pre;
+
+            background: hsl(200, 10%, 10%);
+            color: hsl(100, 50%, 80%);
+
+            outline: 1px solid hsl(200, 10%, 20%);
+            outline-offset: -1rem;
+
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 </head>
 <body>
-    <script>
+<script>
+    const printTitle = (title) => {
+        document.writeln("_____________\n".concat(title));
+    }
+    const printTest = (expression) => {
+        let result = (expression ? "OK" : "ERROR").concat(":\t");
+        document.writeln(result.concat(String(expression)));
+    }
 
-        // function fun1()    { return 1; }
-        //
-        // document.writeln( fun1()   === 1 );
-        // document.writeln( fun1(42) === 1 );
-        //
-        // function fun2()    { return 1; }
-        // function fun2(arg) { return arg; }
-        //
-        // document.writeln( fun2() !== 1  );
-        // document.writeln( fun2() === undefined );
-        // document.writeln( fun2(42) === 42 );
-        //
-        // function noReturn()    { 1; }
-        // const noReturn2 = () => { 1; };
-        // const noReturn3 = () => 1;
-        //
-        // document.writeln( noReturn() !== 1 );
-        // document.writeln( noReturn2() !== 1 );
-        // document.writeln( noReturn3() === 1 );
-        //
-        // const myfun = fun1;
-        // const funs = [null, undefined, fun1, fun2];
-        // //
-        // document.writeln( myfun() === 1 );
-        // document.writeln( funs[2]() === 1 );
-        //
-        // function doit(whatToDo) {
-        //     return function bla(arg) { return whatToDo(arg); }
-        // }
-        //
-        // document.writeln( doit(fun1)(10) === 1 );
-        // document.writeln( doit(fun2)(10) === 10 );
-        //
-        // const doit2 = callme => arg => callme(arg) ;
-        //
-        // document.writeln( doit2(fun1)(10) === 1 );
-        //
-        // const doFun2 = doit2(fun1);
-        //
-        // document.writeln( doFun2(10) === 1 );
-        // document.writeln( doFun2()   === 1 );
+    printTitle("Sanity");
+    printTest(1 === 1);
+    
+    function fun1() {
+        return 1;
+    }
 
-    </script>
+    printTitle("fun1");
+    printTest(fun1() === 1);
+    printTest(fun1(42) === 1);
+
+    function fun2() {
+        return 1;
+    }
+    function fun2(arg) {
+        return arg;
+    }
+
+    printTitle("fun2");
+    printTest(fun2() !== 1);
+    printTest(fun2() === undefined);
+    printTest(fun2(42) === 42);
+
+    function noReturn1() {
+        1;
+    }
+    const noReturn2 = () => {
+        1;
+    };
+    const noReturn3 = () => 1;
+
+    printTitle("noReturn");
+    printTest(noReturn1() !== 1);
+    printTest(noReturn2() !== 1);
+    printTest(noReturn3() === 1);
+
+    const myfun = fun1;
+    const funs = [null, undefined, fun1, fun2];
+
+    printTitle("myfun");
+    printTest(myfun() === 1);
+    printTest(funs[2]() === 1);
+    printTest(funs[2]() === myfun());
+    printTest(funs[2] === myfun);
+
+    function doit(whatToDo) {
+        return function bla(arg) {
+            return whatToDo(arg);
+        }
+    }
+
+    printTitle("doit");
+    printTest(doit(fun1)(10) === 1);
+    printTest(doit(fun2)(10) === 10);
+
+    const doit2 = (callme) => (arg) => callme(arg);
+
+    printTitle("doit2");
+    printTest(doit2(fun1)(10) === 1);
+    printTest(doit2(fun2)(10) === 10);
+
+    const doFun2 = doit2(fun1);
+
+    printTitle("dofun2");
+    printTest(doFun2(10) === 1);
+    printTest(doFun2() === 1);
+
+</script>
 </body>
 </html>
 
