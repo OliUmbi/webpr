@@ -8,7 +8,13 @@ function start() {
     const userFunction = document.getElementById('user_function');
     const canvas       = document.getElementById('canvas');
 
+    const render = stringFunction => {
+        display(canvas, Function("x", "return " + stringFunction));
+    }
 
+    userFunction.addEventListener("change", e => render(e.target.value));
+
+    render(userFunction.value);
 }
 
 function display(canvas, f) {
